@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# assuming /data/mnt/ is where mount point is according to AWS documentation
-MOUNT_POINT="/data/mnt/" 
+# gets the mount point of the system (df prints the list of filesystems present. We take the first in the list
+# the / (root) and get just the filesystem name (something like /dev/nvme0n1p1 from the AWS example)
+MOUNT_POINT=$(df | awk 'NR==2 {print $1}')
 
-# check mount point exists
-if [ ! -d "$MOUNT_POINT" ]; then
-	echo "Mount point $MOUNT_POINT does not exist!"
-fi
+echo using mount point $MOUNT_POINT from list of filesystems:
+echo ----
+df -hT
+echo ----
